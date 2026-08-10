@@ -44,7 +44,7 @@ func TestNoDependencyOutputsFlagRequiresExperiment(t *testing.T) {
 	t.Parallel()
 
 	opts := options.NewTerragruntOptions()
-	flags := runcommand.NewFlags(logger.CreateLogger(), opts, nil)
+	flags := runcommand.NewFlags(logger.CreateLogger(), opts, venvtest.New(), nil)
 
 	require.NoError(t, flags.Parse(clihelper.Args{"--no-dependency-outputs"}))
 
@@ -59,7 +59,7 @@ func TestNoDependencyOutputsFlagAllowedWithExperiment(t *testing.T) {
 
 	opts := options.NewTerragruntOptions()
 	require.NoError(t, opts.Experiments.EnableExperiment(experiment.OptionalDependencyOutputs))
-	flags := runcommand.NewFlags(logger.CreateLogger(), opts, nil)
+	flags := runcommand.NewFlags(logger.CreateLogger(), opts, venvtest.New(), nil)
 
 	require.NoError(t, flags.Parse(clihelper.Args{"--no-dependency-outputs"}))
 	require.NoError(t, flags.RunActions(context.Background(), &clihelper.Context{}))
